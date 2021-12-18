@@ -1,8 +1,4 @@
-//ATENÇÃO: O PARÂMETRO OPCIONAL 'thisArg' SÓ
-//FUNCIONARÁ EM CALLBACKS DEFINIDAS COM A KEYWORD
-//FUNCTION.
-
-function newForEach(array, callback, thisArg) {
+Array.prototype.newForEach = function (callback, thisArg) {
   for (let i = 0; i < array.length; i++) {
     const boundCallback = callback.bind(thisArg);
 
@@ -10,9 +6,9 @@ function newForEach(array, callback, thisArg) {
   }
 
   return undefined;
-}
+};
 
-function newMap(array, callback, thisArg) {
+Array.prototype.newMap = function (callback, thisArg) {
   const mapedArray = [...array];
 
   for (let i = 0; i < array.length; i++) {
@@ -22,9 +18,9 @@ function newMap(array, callback, thisArg) {
   }
 
   return mapedArray;
-}
+};
 
-function newFilter(array, callback, thisArg) {
+Array.prototype.newFilter = function (callback, thisArg) {
   const filteredArray = [];
 
   for (let i = 0; i < array.length; i++) {
@@ -36,9 +32,9 @@ function newFilter(array, callback, thisArg) {
   }
 
   return filteredArray;
-}
+};
 
-function newFind(array, callback, thisArg) {
+Array.prototype.newFind = function (callback, thisArg) {
   let foundItem = undefined;
 
   for (let i = 0; i < array.length; i++) {
@@ -52,9 +48,9 @@ function newFind(array, callback, thisArg) {
   }
 
   return foundItem;
-}
+};
 
-function newFindIndex(array, callback, thisArg) {
+Array.prototype.newFindIndex = function (callback, thisArg) {
   let indexOfArrayItem = -1;
 
   for (let i = 0; i < array.length; i++) {
@@ -68,9 +64,9 @@ function newFindIndex(array, callback, thisArg) {
   }
 
   return indexOfArrayItem;
-}
+};
 
-function newReduce(array, callback, accumulator = array[0]) {
+Array.prototype.newReduce = function (callback, accumulator = array[0]) {
   if (newJoin(array, "").length === 0 && accumulator === undefined) {
     throw new TypeError("Reduce of empty array with no initial value");
   }
@@ -92,9 +88,9 @@ function newReduce(array, callback, accumulator = array[0]) {
   }
 
   return accumulator;
-}
+};
 
-function newSome(array, callback, thisArg) {
+Array.prototype.newSome = function (callback, thisArg) {
   let someItemPassTest = false;
 
   for (let i = 0; i < array.length; i++) {
@@ -108,9 +104,9 @@ function newSome(array, callback, thisArg) {
   }
 
   return someItemPassTest;
-}
+};
 
-function newEvery(array, callback, thisArg) {
+Array.prototype.newEvery = function (callback, thisArg) {
   let everyItemPassTest = true;
 
   for (let i = 0; i < array.length; i++) {
@@ -124,9 +120,9 @@ function newEvery(array, callback, thisArg) {
   }
 
   return everyItemPassTest;
-}
+};
 
-function newFill(array, value, start = 0, end = array.length) {
+Array.prototype.newEvery = function (value, start = 0, end = array.length) {
   if (start < 0) {
     start = array.length + start;
   }
@@ -140,9 +136,9 @@ function newFill(array, value, start = 0, end = array.length) {
   }
 
   return array;
-}
+};
 
-function newIncludes(array, searchElement, fromIndex = 0) {
+Array.prototype.newIncludes = function (searchElement, fromIndex = 0) {
   let isItemPresent = false;
 
   for (let i = fromIndex; i < array.length; i++) {
@@ -154,9 +150,9 @@ function newIncludes(array, searchElement, fromIndex = 0) {
   }
 
   return isItemPresent;
-}
+};
 
-function newIndexOf(array, searchElement, fromIndex = 0) {
+Array.prototype.newIndexOf = function (searchElement, fromIndex = 0) {
   let elementIndex = -1;
 
   if (fromIndex < 0) {
@@ -170,27 +166,27 @@ function newIndexOf(array, searchElement, fromIndex = 0) {
   }
 
   return elementIndex;
-}
+};
 
-function newConcat(array, ...valuesOrArrays) {
-  const copyArray = [...array];
+Array.prototype.newConcat = function (...valuesOrArrays) {
+  const concatenatedArray = [...array];
 
   for (let i = 0; i < valuesOrArrays.length; i++) {
     if (Array.isArray(valuesOrArrays[i])) {
       const line = valuesOrArrays[i];
 
       for (let j = 0; j < line.length; j++) {
-        copyArray.push(line[j]);
+        concatenatedArray.push(line[j]);
       }
     } else {
-      copyArray.push(valuesOrArrays[i]);
+      concatenatedArray.push(valuesOrArrays[i]);
     }
   }
 
-  return copyArray;
-}
+  return concatenatedArray;
+};
 
-function newJoin(array, separator = ",") {
+Array.prototype.newJoin = function (separator = ",") {
   let concatenatedString = "";
 
   for (let i = 0; i < array.length; i++) {
@@ -206,9 +202,13 @@ function newJoin(array, separator = ",") {
   }
 
   return concatenatedString;
-}
+};
 
-function newSlice(array, startIndex = 0, numberOfElements = array.length) {
+Array.prototype.newSlice = function (
+  array,
+  startIndex = 0,
+  numberOfElements = array.length
+) {
   const slicedArray = [];
 
   if (startIndex < 0) {
@@ -226,30 +226,28 @@ function newSlice(array, startIndex = 0, numberOfElements = array.length) {
   }
 
   return slicedArray;
-}
+};
 
-function newFlat(array, depth = 1) {
-  let copyArray = [...array];
-
-  if (depth === 0) depth = 1;
+Array.prototype.newFlat = function (depth = 1) {
+  let flatenedArray = [...array];
 
   if (depth < 0) depth *= -1;
 
   while (depth > 0) {
-    copyArray = newReduce(copyArray, (acc, cur) => newConcat(acc, cur), []);
+    flatenedArray.newReduce((acc, cur) => acc.newConcat(cur));
 
     depth--;
   }
 
-  return copyArray;
-}
+  return flatenedArray;
+};
 
-function newFlatMap(array, callback, thisArg) {
+Array.prototype.newFlatMap = function (callback, thisArg) {
   let copyArray = [...array];
 
-  copyArray = newMap(copyArray, callback, thisArg);
-
-  copyArray = newReduce(copyArray, (acc, cur) => newConcat(acc, cur), []);
+  flatenedArray
+    .newMap(callback, thisArg)
+    .newReduce((acc, cur) => acc.newConcat(cur));
 
   return copyArray;
-}
+};
